@@ -8,4 +8,5 @@ export interface RegesterViewModel {
   city:string
   confirmPassword : string
   password : string
+  roles:string[]
 }

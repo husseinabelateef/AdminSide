@@ -3,7 +3,7 @@ export interface User {
   email: string;
   mobileNo: string[];
   username:string;
-  
+  roles:string[]
   address: {
     street: string;
     postalCode: string;

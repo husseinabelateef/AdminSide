@@ -85,6 +85,7 @@
             <h1>{{ element.name }}</h1>
             <h3>{{ element.email }}</h3>
             <h4>{{ element.phoneNumber }}</h4>
+            <h4 *ngFor="let item of element.roles">{{item}}</h4>
 
           </div>
         </div>
@@ -118,4 +119,11 @@
   role="button"
   [routerLink]="['regester']"
 > Add New User</a>
+  <a
+  type="button"
+  class="Items-controller ms-3 mb-3 rounded px-2"
+  style="width: auto;"
+  role="button"
+  [routerLink]="['addRolle']"
+> Add role</a>
 </div>

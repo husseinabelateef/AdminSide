@@ -3,39 +3,36 @@ import {
   CanActivate, Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  CanActivateChild,
-  UrlTree
 } from '@angular/router';
-import { checkServerIdentity } from 'tls';
 import { AuthServicesService } from './auth-services.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthServicesService, private router: Router) {}
+export class AuthGuard implements CanActivate {
+  constructor(private router:Router , private auth:AuthServicesService){
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): true|UrlTree {
-    const url: string = state.url;
+  }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    return this.checkLogin(url);
+   if(!this.auth.hasTokken())
+   {
+      this.router.navigate(['admin/login']);
+       return false;
+   }
+   else{
+    let inRolle:Boolean = false
+     this.auth.getCurrentRolles().subscribe(x=>
+x.map(i=>
+  (i=="Admin")?inRolle = true:inRolle))
+  
+      if(inRolle){
+
+          return true
+      }
+      this.router.navigate(['admin/login']);
+      alert("You Are Not Admin ..Please Login As Admin");
+       return false;
+   }
   }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): true|UrlTree {
-    return this.canActivate(route, state);
-  }
-
-checkLogin(url:):true|UrlTree{
-  var islog:boolean = false
-let su = this.authService.isLoggin().subscribe(x=>islog=x);
-
-if(islog){
-  return true;
-}
-return url
-
-}
 }

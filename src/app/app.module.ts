@@ -12,7 +12,11 @@ import { HeaderComponent } from './Component/header/header.component';
 import { FooterComponent } from './Component/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NotFoundComponent } from './Component/not-found/not-found.component';
-
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { JwtModule } from "@auth0/angular-jwt";
+export function tokenGetter() {
+  return localStorage.getItem("tokkern");
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,9 +33,21 @@ import { NotFoundComponent } from './Component/not-found/not-found.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+     JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["example.com"],
+        disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    }),
+  
   ],
   providers: [
+    {
+      provide: 'AuthGuard',
+      useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => true
+      },
     {
       provide:HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -13,7 +13,7 @@ import {MatInputModule} from '@angular/material/input'
 import { MatSortModule } from '@angular/material/sort';
 import { AddRolleComponent } from './add-rolle/add-rolle.component';
 const routes:Routes=[
-{path:'',component:AllUsersComponent},
+{path:'',component:AllUsersComponent },
 {path:'regester',component:RegesterComponent},
 {path:'UpdateUser',component:RegesterComponent},
 {path:'details',component:DetailsComponent},
